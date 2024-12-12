@@ -1,6 +1,7 @@
 ﻿using System.Data.SQLite;
 
 ReadData(CreateConnection());
+AddCustomer(CreateConnection());
 
 static SQLiteConnection CreateConnection()
 {
@@ -39,5 +40,28 @@ static void ReadData(SQLiteConnection myConnection)
     }
 
     myConnection.Close();
+}
+
+static void AddCustomer(SQLiteConnection myConnection)
+{
+    SQLiteCommand command;
+
+    string fName = "Harry";
+    string lName = "Potter";
+    string dob = "07-31-1980";
+
+    command = myConnection.CreateCommand();
+    command.CommandText = $"INSERT INTO customer(fisrtName, lastName, dateOfBirth) VALUES ('{fName}','{lName}','{dob}')";
+
+
+    int rowInserted = command.ExecuteNonQuery();
+
+    Console.Clear();
+    Console.WriteLine($"Rows insterted: {rowInserted}");
+
+    ReadData(myConnection);
+
+    myConnection.Close();
+
 }
 
