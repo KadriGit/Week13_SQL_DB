@@ -1,6 +1,6 @@
 ﻿using System.Data.SQLite;
 
-CreateConnection();
+ReadData(CreateConnection());
 
 static SQLiteConnection CreateConnection()
 {
@@ -17,5 +17,27 @@ static SQLiteConnection CreateConnection()
     }
 
     return connection;
+}
+
+static void ReadData(SQLiteConnection myConnection)
+{
+    SQLiteDataReader read;
+    SQLiteCommand command;
+
+    command = myConnection.CreateCommand();
+    command.CommandText = "SELECT * FROM customer";
+
+    read = command.ExecuteReader();
+
+    while (read.Read())
+    {
+        string fName = read.GetString(0);
+        string lName = read.GetString(1);
+        string dob = read.GetString(2);
+
+        Console.WriteLine($"Full name: {fName} {lName}; DoB: {dob}");
+    }
+
+    myConnection.Close();
 }
 
