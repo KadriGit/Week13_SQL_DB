@@ -1,7 +1,8 @@
 ﻿using System.Data.SQLite;
 
 ReadData(CreateConnection());
-AddCustomer(CreateConnection());
+//AddCustomer(CreateConnection());
+RemoveCustomer(CreateConnection());
 
 static SQLiteConnection CreateConnection()
 {
@@ -62,6 +63,24 @@ static void AddCustomer(SQLiteConnection myConnection)
     ReadData(myConnection);
 
     myConnection.Close();
+
+}
+
+static void RemoveCustomer(SQLiteConnection myConnection)
+{
+    SQLiteCommand command;
+
+    string idToDelete = "2";
+
+    command = myConnection.CreateCommand();
+    command.CommandText = $"DELETE FROM customer WHERE rowid = {idToDelete}";
+
+    int rowsDeleted = command.ExecuteNonQuery();
+
+    Console.Clear();
+    Console.WriteLine($"Rows deleted: {rowsDeleted}");
+
+    ReadData(myConnection);
 
 }
 
